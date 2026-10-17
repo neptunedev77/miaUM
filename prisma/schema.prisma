@@ -36,12 +36,10 @@ enum ReportStatus {
 }
 
 enum HolderType {
-  /// Entregue num ponto oficial (com staff)
+  /// Entregue (ou a entregar) num ponto de entrega, indicado em texto livre
   POINT
-  /// Fica com quem encontrou
+  /// Fica com quem encontrou; o contacto é revelado a quem reclamar
   FINDER
-  /// Deixado num local não oficial (portaria, bar, biblioteca...), sem staff na app
-  INFORMAL
 }
 
 enum Color {
@@ -221,7 +219,6 @@ model Location {
   children      Location[]     @relation("LocationTree")
   dropOffPoints DropOffPoint[]
   reports       Report[]
-  spotReports   Report[]       @relation("ReportSpot")
 
   @@index([campusId])
 }
@@ -314,13 +311,13 @@ model Report {
   // FOUND
   foundAt        DateTime?
   holderType     HolderType?
-  /// Obrigatório se holderType = POINT
+  /// Só POINT: onde foi entregue, escrito por quem encontrou. Privado (revelado só a quem reclamar).
+  dropOffText    String?      @db.VarChar(120)
+  /// Só POINT: preenchido quando o texto corresponde a um ponto conhecido (o staff desse ponto vê o objeto)
   dropOffPointId String?
-  /// Só INFORMAL: slug de dropOffTypes (portaria, bar, biblioteca, ...) e onde fica.
-  /// Privados: revelados apenas ao reclamante, como o ponto oficial.
-  spotType       String?
-  spotLocationId String?
-  spotNote       String?      @db.VarChar(120)
+  /// Só FINDER: contacto extra opcional (ex.: telemóvel). Privado; revelado só a quem reclamar,
+  /// juntamente com o email institucional do autor.
+  finderContact  String?      @db.VarChar(120)
 
   hiddenByModeration Boolean   @default(false)
   reminderSentAt     DateTime?
@@ -337,7 +334,6 @@ model Report {
   campus       Campus?       @relation(fields: [campusId], references: [id])
   location     Location?     @relation(fields: [locationId], references: [id])
   dropOffPoint DropOffPoint? @relation(fields: [dropOffPointId], references: [id])
-  spotLocation Location?     @relation("ReportSpot", fields: [spotLocationId], references: [id])
 
   photos             Photo[]
   claims             Claim[]

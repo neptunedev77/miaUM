@@ -31,7 +31,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   // servidor para não haver um "flash" do tema errado ao carregar.
   const theme = (await cookies()).get(THEME_COOKIE)?.value;
   return (
-    <html lang={locale === "pt" ? "pt-PT" : "en"} data-theme={isTheme(theme) ? theme : undefined}
+    <html lang={locale === "pt" ? "pt-PT" : "en"} data-theme={isTheme(theme) ? theme : undefined} data-scroll-behavior="smooth"
       className={`${inter.variable} ${fraunces.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <NextIntlClientProvider>

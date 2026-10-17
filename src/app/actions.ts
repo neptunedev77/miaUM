@@ -9,6 +9,7 @@ import { devLoginEnabled, oidcEnabled } from "@/server/config";
 import { prisma } from "@/server/db";
 import { getCurrentUser } from "@/server/session";
 import { isLocale, LOCALE_COOKIE } from "@/i18n/config";
+import { firstNameFrom, safeNext } from "@/domain/navigation";
 
 const emailSchema = z.string().trim().toLowerCase().email().max(254);
 
@@ -22,22 +23,37 @@ async function runSignIn(fn: () => Promise<unknown>) {
   }
 }
 
+/** Depois do login passa sempre por /bem-vindo, que pede o primeiro nome se ainda não existir. */
+function afterLogin(formData: FormData) {
+  const next = safeNext(formData.get("next"), "/");
+  return `/bem-vindo?next=${encodeURIComponent(next)}`;
+}
+
 export async function signInWithEmail(formData: FormData) {
   const parsed = emailSchema.safeParse(formData.get("email"));
   if (!parsed.success) redirect("/entrar?erro=invalidEmail");
-  await runSignIn(() => signIn("email", { email: parsed.data, redirectTo: "/" }));
+  await runSignIn(() => signIn("email", { email: parsed.data, redirectTo: afterLogin(formData) }));
 }
 
-export async function signInWithOidc() {
+export async function signInWithOidc(formData: FormData) {
   if (!oidcEnabled) redirect("/entrar");
-  await runSignIn(() => signIn("oidc", { redirectTo: "/" }));
+  await runSignIn(() => signIn("oidc", { redirectTo: afterLogin(formData) }));
 }
 
 export async function signInAsDevUser(formData: FormData) {
   if (!devLoginEnabled) redirect("/entrar");
   const parsed = emailSchema.safeParse(formData.get("email"));
   if (!parsed.success) redirect("/entrar?erro=invalidEmail");
-  await runSignIn(() => signIn("dev", { email: parsed.data, redirectTo: "/conta" }));
+  await runSignIn(() => signIn("dev", { email: parsed.data, redirectTo: afterLogin(formData) }));
+}
+
+export async function saveFirstName(_prev: { error?: string } | undefined, formData: FormData) {
+  const user = await getCurrentUser();
+  if (!user) redirect("/entrar");
+  const name = firstNameFrom(formData.get("name"));
+  if (!name) return { error: "invalidName" };
+  await prisma.user.update({ where: { id: user.id }, data: { name } });
+  redirect(safeNext(formData.get("next"), "/"));
 }
 
 export async function signOutAction() {

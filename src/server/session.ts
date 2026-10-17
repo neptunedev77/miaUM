@@ -36,10 +36,18 @@ export function hasRole(user: CurrentUser | null, role: Role) {
   return Boolean(user?.roles.includes(role));
 }
 
-export async function requireUser(): Promise<CurrentUser> {
+/** Exige sessão; sem sessão vai para o login e depois volta a `next`. */
+export async function requireUser(next?: string): Promise<CurrentUser> {
   const user = await getCurrentUser();
-  if (!user) redirect("/entrar");
+  if (!user) redirect(next ? `/entrar?next=${encodeURIComponent(next)}` : "/entrar");
   return user;
+}
+
+/** Como requireUser, mas também exige o primeiro nome (necessário para o chat e para o balcão). */
+export async function requireNamedUser(next: string): Promise<CurrentUser & { name: string }> {
+  const user = await requireUser(next);
+  if (!user.name) redirect(`/bem-vindo?next=${encodeURIComponent(next)}`);
+  return { ...user, name: user.name };
 }
 
 export async function requireRole(role: Role): Promise<CurrentUser> {

@@ -29,6 +29,8 @@ const schema = z.object({
   SMTP_PASSWORD: z.string().default(""),
   EMAIL_FROM: z.string().default("miaUM <no-reply@example.test>"),
   MAGIC_LINKS_MAX_PER_HOUR: z.coerce.number().int().positive().default(5),
+  REPORT_TTL_DAYS: z.coerce.number().int().positive().default(30),
+  REPORTS_MAX_PER_DAY: z.coerce.number().int().positive().default(10),
 });
 
 export const config = schema.parse(process.env);

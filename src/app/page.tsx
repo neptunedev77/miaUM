@@ -1,13 +1,15 @@
 import type { CSSProperties } from "react";
 import { getTranslations } from "next-intl/server";
-import { BellRing, Clock, Hand, Inbox, PackageSearch, PenLine, ShieldCheck } from "lucide-react";
+import { BellRing, Clock, Hand, PackageSearch, PenLine, ShieldCheck } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
-import { EmptyState, Page } from "@/components/ui/page";
+import { Page } from "@/components/ui/page";
+import { ReportList } from "./report-list";
 
 const stagger = (i: number) => ({ "--i": i }) as CSSProperties;
 
-export default async function HomePage() {
+export default async function HomePage({ searchParams }: PageProps<"/">) {
   const t = await getTranslations("home");
+  const params = await searchParams;
   const steps = [
     { icon: <PenLine className="size-5" aria-hidden />, key: "1" },
     { icon: <BellRing className="size-5" aria-hidden />, key: "2" },
@@ -45,14 +47,14 @@ export default async function HomePage() {
       </section>
 
       {/* Anúncios recentes: o núcleo da app */}
-      <section aria-labelledby="recentes" className="stagger animate-fade-up space-y-4" style={stagger(4)}>
+      <section id="anuncios" aria-labelledby="recentes" className="stagger scroll-mt-24 animate-fade-up space-y-4" style={stagger(4)}>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <h2 id="recentes" className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">{t("listTitle")}</h2>
           <p className="flex items-center gap-1.5 text-sm text-muted">
             <Clock aria-hidden className="size-4 shrink-0" /> {t("oldNotice")}
           </p>
         </div>
-        <EmptyState icon={<Inbox className="size-7" aria-hidden />} title={t("empty")} description={t("emptyText")} />
+        <ReportList searchParams={params} />
       </section>
 
       {/* Como funciona + privacidade */}

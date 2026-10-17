@@ -13,6 +13,7 @@ import { LogoMark } from "@/components/logo";
 import { config, devLoginEnabled, oidcEnabled } from "@/server/config";
 import { prisma } from "@/server/db";
 import { getCurrentUser } from "@/server/session";
+import { safeNext } from "@/domain/navigation";
 
 export const metadata: Metadata = { title: "Entrar" };
 
@@ -28,9 +29,11 @@ async function devUsers() {
 }
 
 export default async function SignInPage({ searchParams }: PageProps<"/entrar">) {
-  if (await getCurrentUser()) redirect("/conta");
   // `erro` vem das nossas ações; `error` vem dos redirects do próprio Auth.js (ex.: link expirado).
-  const { erro, error } = await searchParams;
+  const { erro, error, next: nextParam } = await searchParams;
+  const next = safeNext(nextParam, "/");
+  if (await getCurrentUser()) redirect(next);
+  const nextField = <input type="hidden" name="next" value={next} />;
   const code = typeof erro === "string" ? erro : typeof error === "string" ? error : null;
   const t = await getTranslations("login");
   const tr = await getTranslations("roles");
@@ -49,6 +52,7 @@ export default async function SignInPage({ searchParams }: PageProps<"/entrar">)
 
       <Card className="animate-fade-up p-6">
         <form action={signInWithEmail} className="space-y-4">
+          {nextField}
           <div className="space-y-2">
             <label htmlFor="email" className="block text-sm font-medium">{t("emailLabel")}</label>
             <div className="relative">
@@ -63,6 +67,7 @@ export default async function SignInPage({ searchParams }: PageProps<"/entrar">)
 
         {oidcEnabled && (
           <form action={signInWithOidc} className="mt-4 space-y-4">
+            {nextField}
             <div className="flex items-center gap-3 text-xs text-muted uppercase">
               <span className="h-px flex-1 bg-border" />{t("or")}<span className="h-px flex-1 bg-border" />
             </div>
@@ -85,6 +90,7 @@ export default async function SignInPage({ searchParams }: PageProps<"/entrar">)
               return (
                 <li key={u.id}>
                   <form action={signInAsDevUser}>
+                    {nextField}
                     <input type="hidden" name="email" value={u.email!} />
                     <button type="submit" aria-label={t("devAs", { name })}
                       className="group flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-surface-muted">
