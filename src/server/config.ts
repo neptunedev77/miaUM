@@ -31,6 +31,10 @@ const schema = z.object({
   MAGIC_LINKS_MAX_PER_HOUR: z.coerce.number().int().positive().default(5),
   REPORT_TTL_DAYS: z.coerce.number().int().positive().default(30),
   REPORTS_MAX_PER_DAY: z.coerce.number().int().positive().default(10),
+  CLAIM_REVERT_DAYS: z.coerce.number().int().positive().default(5),
+  CLAIMS_MAX_ACTIVE: z.coerce.number().int().positive().default(1),
+  CLAIMS_MAX_PER_WINDOW: z.coerce.number().int().positive().default(3),
+  CLAIMS_WINDOW_DAYS: z.coerce.number().int().positive().default(7),
 });
 
 export const config = schema.parse(process.env);

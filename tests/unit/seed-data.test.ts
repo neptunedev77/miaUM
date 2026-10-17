@@ -48,8 +48,8 @@ describe("utilizadores de teste", () => {
     for (const u of devUsers) expect(u.email.endsWith("@example.test"), u.email).toBe(true);
   });
 
-  it("cobrem os perfis de utilizador, staff e administrador", () => {
+  it("cobrem os perfis de utilizador e administrador", () => {
     const roles = new Set(devUsers.flatMap((u) => u.roles));
-    expect([...roles].sort()).toEqual(["ADMIN", "STAFF", "USER"]);
+    expect([...roles].sort()).toEqual(["ADMIN", "USER"]);
   });
 });

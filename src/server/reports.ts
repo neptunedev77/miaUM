@@ -1,11 +1,12 @@
 import "server-only";
 import type { Prisma } from "@prisma/client";
 import { expiresAt, type FoundReportInput, type LostReportInput } from "@/domain/report";
-import { initialStatus, isPubliclyVisible } from "@/domain/report-state";
+import { claimDeadline, initialStatus, isPubliclyVisible } from "@/domain/report-state";
 import { config } from "./config";
 import { prisma } from "./db";
 import { consumeRateLimit } from "./rate-limit";
 import { attachPhotos, PhotoUploadError } from "./photos";
+import { expireStaleClaims } from "./claims";
 
 type Locale = "pt" | "en";
 const pick = <T extends { namePt: string; nameEn: string }>(o: T, locale: Locale) => (locale === "en" ? o.nameEn : o.namePt);
@@ -207,6 +208,7 @@ function toPublic(r: PublicRow, locale: Locale) {
   return {
     id: r.id,
     type: r.type,
+    status: r.status,
     categoryId: r.categoryId,
     campusId: r.campusId,
     categorySlug: r.category.slug,
@@ -247,6 +249,7 @@ export type ListFilters = {
 export const PAGE_SIZE = 5;
 
 export async function listPublicReports(filters: ListFilters, page: number, locale: Locale) {
+  await expireStaleClaims();
   const now = new Date();
   const and: Prisma.ReportWhereInput[] = [
     { hiddenByModeration: false, expiresAt: { gt: now } },
@@ -289,9 +292,11 @@ export async function listPublicReports(filters: ListFilters, page: number, loca
 
 /**
  * Anúncio para a página de detalhe. O público só o vê enquanto estiver ativo; o autor vê sempre o
- * seu, incluindo os dados privados (que mais ninguém recebe nesta fase).
+ * seu (com os dados privados); quem o reclamou vê-o enquanto a reclamação estiver ativa ou concluída,
+ * com o local de entrega ou os contactos de quem o encontrou.
  */
 export async function getReportForViewer(id: string, viewerId: string | null, locale: Locale) {
+  await expireStaleClaims();
   const row = await prisma.report.findUnique({
     where: { id },
     select: {
@@ -302,25 +307,80 @@ export async function getReportForViewer(id: string, viewerId: string | null, lo
       finderContact: true,
       author: { select: { email: true } },
       dropOffPoint: { select: { name: true, directionsPt: true, directionsEn: true, campus: { select: { namePt: true, nameEn: true } } } },
+      claims: {
+        where: { status: { in: ["ACTIVE", "COMPLETED"] } },
+        orderBy: { createdAt: "desc" },
+        select: { id: true, status: true, claimantId: true, createdAt: true, claimant: { select: { name: true } } },
+      },
     },
   });
   if (!row) return null;
   const isAuthor = viewerId !== null && row.authorId === viewerId;
-  if (!isAuthor && !isPubliclyVisible(row)) return null;
+  const viewerClaim = viewerId ? row.claims.find((c) => c.claimantId === viewerId) ?? null : null;
+  if (!isAuthor && !viewerClaim && !isPubliclyVisible(row)) return null;
 
   const report = toPublic(row, locale);
+  const directions = row.dropOffPoint ? (locale === "en" ? row.dropOffPoint.directionsEn : row.dropOffPoint.directionsPt) : null;
+  const contact = row.holderType === "FINDER" ? { email: row.author.email, extra: row.finderContact } : null;
+  const activeClaim = row.claims.find((c) => c.status === "ACTIVE") ?? null;
+
   const owner = isAuthor
     ? {
         privateDetails: row.privateDetails,
         status: row.status,
         expiresAt: row.expiresAt,
         dropOffText: row.dropOffText,
-        point: row.dropOffPoint
-          ? { name: row.dropOffPoint.name, directions: locale === "en" ? row.dropOffPoint.directionsEn : row.dropOffPoint.directionsPt }
+        point: row.dropOffPoint ? { name: row.dropOffPoint.name, directions } : null,
+        // O que é revelado a quem reclamar (quando quem encontrou fica com o objeto).
+        contact,
+        activeClaim: activeClaim
+          ? { claimantName: activeClaim.claimant.name, createdAt: activeClaim.createdAt, deadline: claimDeadline(activeClaim.createdAt, config.CLAIM_REVERT_DAYS) }
           : null,
-        // O que vai ser revelado a quem reclamar (quando quem encontrou fica com o objeto).
-        contact: row.holderType === "FINDER" ? { email: row.author.email, extra: row.finderContact } : null,
       }
     : null;
-  return { report, isAuthor, owner };
+
+  // O que quem reclamou passa a ver: o local de entrega ou os contactos (nunca os detalhes privados).
+  const claim = viewerClaim
+    ? {
+        id: viewerClaim.id,
+        status: viewerClaim.status,
+        createdAt: viewerClaim.createdAt,
+        deadline: claimDeadline(viewerClaim.createdAt, config.CLAIM_REVERT_DAYS),
+        dropOffText: row.holderType === "POINT" ? row.dropOffText : null,
+        directions: row.holderType === "POINT" ? directions : null,
+        contact,
+      }
+    : null;
+
+  return { report, isAuthor, owner, claim, canClaim: !isAuthor && !viewerClaim && isPubliclyVisible(row) && row.type === "FOUND" };
+}
+
+// ---------------------------------------------------------------------------
+// "Os meus anúncios"
+// ---------------------------------------------------------------------------
+
+export async function getMyReports(userId: string, type: "LOST" | "FOUND", locale: Locale) {
+  await expireStaleClaims();
+  const rows = await prisma.report.findMany({
+    where: { authorId: userId, type },
+    orderBy: { publishedAt: "desc" },
+    select: { ...publicSelect, claims: { where: { status: "ACTIVE" }, select: { id: true } } },
+  });
+  return rows.map((r) => ({ ...toPublic(r, locale), hasActiveClaim: r.claims.length > 0 }));
+}
+
+export async function getMyClaims(userId: string, locale: Locale) {
+  await expireStaleClaims();
+  const claims = await prisma.claim.findMany({
+    where: { claimantId: userId },
+    orderBy: { createdAt: "desc" },
+    select: { id: true, status: true, createdAt: true, report: { select: publicSelect } },
+  });
+  return claims.map((c) => ({
+    id: c.id,
+    status: c.status,
+    createdAt: c.createdAt,
+    deadline: claimDeadline(c.createdAt, config.CLAIM_REVERT_DAYS),
+    report: toPublic(c.report, locale),
+  }));
 }

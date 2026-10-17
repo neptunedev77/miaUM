@@ -9,7 +9,7 @@ export async function Header() {
   const [locale, user] = await Promise.all([getLocale(), getCurrentUser()]);
 
   const items: NavItem[] = [{ href: "/", key: "home" }];
-  if (hasRole(user, "STAFF")) items.push({ href: "/staff", key: "staff" });
+  if (user) items.push({ href: "/meus-anuncios", key: "mine" });
   if (hasRole(user, "ADMIN")) items.push({ href: "/admin", key: "admin" });
 
   return (

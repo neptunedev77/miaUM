@@ -84,7 +84,7 @@ export function FoundWizard({ options, now, initial, email }: { options: FormOpt
     go(next);
   }
 
-  /** Texto livre; se coincidir com uma sugestão, liga o anúncio a esse ponto (o staff passa a vê-lo). */
+  /** Texto livre; se coincidir com uma sugestão, liga o anúncio a esse ponto conhecido. */
   function setDropOff(text: string) {
     set("dropOffText", text);
     set("dropOffPointId", options.points.find((p) => p.label === text.trim())?.id ?? "");

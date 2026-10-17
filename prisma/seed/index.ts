@@ -93,7 +93,6 @@ async function seedDropOffPoints(campusIds: Map<string, string>) {
 
 // Utilizadores de teste (emails inventados em example.test). Só em desenvolvimento.
 async function seedDevUsers() {
-  const gualtarPoint = await prisma.dropOffPoint.findFirstOrThrow({ where: { name: examplePoints[0].name } });
   for (const u of devUsers) {
     const user = await prisma.user.upsert({
       where: { email: u.email },
@@ -105,13 +104,6 @@ async function seedDevUsers() {
         where: { userId_role: { userId: user.id, role } },
         update: {},
         create: { userId: user.id, role },
-      });
-    }
-    if (u.roles.includes("STAFF")) {
-      await prisma.staffAssignment.upsert({
-        where: { userId_dropOffPointId: { userId: user.id, dropOffPointId: gualtarPoint.id } },
-        update: {},
-        create: { userId: user.id, dropOffPointId: gualtarPoint.id },
       });
     }
   }

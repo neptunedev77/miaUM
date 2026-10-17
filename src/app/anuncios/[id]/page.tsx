@@ -2,20 +2,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getFormatter, getLocale, getTranslations } from "next-intl/server";
-import {
-  ArrowLeft, CalendarClock, CircleCheck, Clock, Hand, Lock, Mail, MapPin, Palette, Phone, ShieldCheck, Sparkles, Tag,
-} from "lucide-react";
+import { ArrowLeft, CalendarClock, CircleCheck, Lock, MapPin, Palette, ShieldCheck, Tag } from "lucide-react";
 import { CategoryIcon } from "@/components/category-icon";
 import { Gallery } from "@/components/photos/gallery";
 import { LostWindowTimeline } from "@/components/lost-window-timeline";
 import { CustodyLabel, reportTitle } from "@/components/report-row";
 import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import { ButtonLink, buttonClasses } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/components/ui/cn";
 import { Page } from "@/components/ui/page";
+import { config } from "@/server/config";
 import { getReportForViewer } from "@/server/reports";
+import { ClaimantPanel, OwnerPanel, VisitorPanel } from "./panels";
 import { getCurrentUser } from "@/server/session";
 
 export const metadata: Metadata = { title: "Anúncio" };
@@ -33,13 +32,13 @@ function Detail({ icon: Icon, label, children }: { icon: typeof Tag; label: stri
 }
 
 export default async function ReportPage({ params, searchParams }: PageProps<"/anuncios/[id]">) {
-  const [{ id }, { novo }] = await Promise.all([params, searchParams]);
+  const [{ id }, query] = await Promise.all([params, searchParams]);
   const [user, locale] = await Promise.all([getCurrentUser(), getLocale()]);
   const data = await getReportForViewer(id, user?.id ?? null, locale === "en" ? "en" : "pt");
   if (!data) notFound();
-  const { report: r, isAuthor, owner } = data;
+  const { report: r, isAuthor } = data;
 
-  const [t, tc, format] = await Promise.all([getTranslations("report"), getTranslations("colors"), getFormatter()]);
+  const [t, tc, tcl, format] = await Promise.all([getTranslations("report"), getTranslations("colors"), getTranslations("claim"), getFormatter()]);
   const lost = r.type === "LOST";
   const when = (d: Date) => format.dateTime(d, { dateStyle: "medium", timeStyle: "short" });
   const similarHref = `/encontrei?${new URLSearchParams({
@@ -55,11 +54,17 @@ export default async function ReportPage({ params, searchParams }: PageProps<"/a
         <ArrowLeft aria-hidden className="size-4" /> {t("backToList")}
       </Link>
 
-      {novo && isAuthor && (
+      {query.novo && isAuthor && (
         <Alert icon={CircleCheck} className="border-success/30 bg-success-soft text-success">
           <strong className="font-semibold">{t("publishedTitle")}</strong> {t(lost ? "publishedLostText" : "publishedFoundText")}
         </Alert>
       )}
+      {(["reservado", "concluido", "encerrado", "reaberto", "recuperado"] as const).map((k) =>
+        query[k] ? (
+          <Alert key={k} icon={CircleCheck} className="border-success/30 bg-success-soft text-success">{tcl(`flash.${k}`)}</Alert>
+        ) : null,
+      )}
+      {typeof query.erro === "string" && <Alert tone="danger">{tcl.has(`errors.${query.erro}`) ? tcl(`errors.${query.erro}`) : tcl("errors.notAllowed")}</Alert>}
 
       <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
         <Card className="animate-fade-up overflow-hidden">
@@ -73,6 +78,9 @@ export default async function ReportPage({ params, searchParams }: PageProps<"/a
           <div className="space-y-4 p-6">
             <div className="flex flex-wrap items-center gap-2">
               <Badge tone={lost ? "primary" : "success"}>{t(lost ? "lostBadge" : "foundBadge")}</Badge>
+              {(r.status === "CLAIMED" || r.status === "RETURNED" || r.status === "RECOVERED") && (
+                <Badge tone="accent">{tcl(`status.${r.status}`)}</Badge>
+              )}
               <span className="text-xs text-muted">{t("publishedAgo", { ago: format.relativeTime(r.publishedAt, new Date()) })}</span>
             </div>
             <h1 className="font-display text-3xl font-semibold tracking-tight">{reportTitle(r)}</h1>
@@ -99,51 +107,9 @@ export default async function ReportPage({ params, searchParams }: PageProps<"/a
         </Card>
 
         <aside className="space-y-4">
-          {isAuthor && owner ? (
-            <Card className="animate-fade-up space-y-4 p-5">
-              <div className="flex items-center gap-2">
-                <Sparkles aria-hidden className="size-4 text-primary-ink" />
-                <h2 className="font-semibold">{t("yours")}</h2>
-              </div>
-              <p className="flex items-center gap-2 text-sm text-muted">
-                <Clock aria-hidden className="size-4 shrink-0" /> {t("expiresOn", { date: format.dateTime(owner.expiresAt, { dateStyle: "long" }) })}
-              </p>
-              {owner.dropOffText && (
-                <div className="rounded-xl bg-surface-muted p-3 text-sm">
-                  <p className="text-xs text-muted">{t("handedInAt")}</p>
-                  <p className="mt-0.5 flex items-center gap-1.5 font-medium"><ShieldCheck aria-hidden className="size-4 shrink-0" /> {owner.dropOffText}</p>
-                  {owner.point && <p className="mt-1 text-muted">{owner.point.directions}</p>}
-                </div>
-              )}
-              {owner.contact && (
-                <div className="space-y-1.5 rounded-xl bg-surface-muted p-3 text-sm">
-                  <p className="flex items-start gap-2"><Hand aria-hidden className="mt-0.5 size-4 shrink-0" /> {t("finderKeeps")}</p>
-                  <p className="flex items-center gap-2 text-muted"><Mail aria-hidden className="size-4 shrink-0" /> <span className="break-all">{owner.contact.email}</span></p>
-                  {owner.contact.extra && <p className="flex items-center gap-2 text-muted"><Phone aria-hidden className="size-4 shrink-0" /> {owner.contact.extra}</p>}
-                </div>
-              )}
-              {owner.privateDetails && (
-                <div className="text-sm">
-                  <p className="flex items-center gap-1.5 text-xs text-muted"><Lock aria-hidden className="size-3.5" /> {t("privateDetails")}</p>
-                  <p className="mt-1">{owner.privateDetails}</p>
-                </div>
-              )}
-              <p className="text-xs text-muted">{t("manageSoon")}</p>
-            </Card>
-          ) : lost ? (
-            <Card className="animate-fade-up space-y-3 p-5">
-              <h2 className="font-semibold">{t("sawItTitle")}</h2>
-              <p className="text-sm text-muted">{t("sawItText")}</p>
-              <ButtonLink href={similarHref} className="w-full">{t("foundSimilar")}</ButtonLink>
-            </Card>
-          ) : (
-            <Card className="animate-fade-up space-y-3 p-5">
-              <h2 className="font-semibold">{t("isItYoursTitle")}</h2>
-              <p className="text-sm text-muted">{t("isItYoursText")}</p>
-              <button type="button" disabled className={buttonClasses({ className: "w-full" })}>{t("itsMine")}</button>
-              <p className="text-xs text-muted">{t("claimSoon")}</p>
-            </Card>
-          )}
+          {isAuthor ? <OwnerPanel data={data} />
+            : data.claim ? <ClaimantPanel data={data} />
+            : <VisitorPanel data={data} signedIn={Boolean(user)} revertDays={config.CLAIM_REVERT_DAYS} similarHref={similarHref} />}
 
           <div className="flex animate-fade-up items-start gap-3 rounded-2xl bg-primary-soft/60 p-4 text-sm">
             <Lock aria-hidden className="mt-0.5 size-4 shrink-0 text-primary-ink" />

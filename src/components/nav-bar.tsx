@@ -4,14 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { ChevronDown, LogIn, LogOut, Menu, PackageSearch, UserRound, X } from "lucide-react";
+import { ChevronDown, ListChecks, LogIn, LogOut, Menu, PackageSearch, UserRound, X } from "lucide-react";
 import { setLocale, signOutAction } from "@/app/actions";
 import { Avatar } from "./ui/avatar";
 import { buttonClasses } from "./ui/button";
 import { cn } from "./ui/cn";
 import { ThemeToggle } from "./theme-toggle";
 
-export type NavItem = { href: string; key: "home" | "staff" | "admin" };
+export type NavItem = { href: string; key: "home" | "mine" | "admin" };
 type Locale = "pt" | "en";
 type User = { name: string; email: string } | null;
 
@@ -80,6 +80,10 @@ function UserMenu({ user }: { user: NonNullable<User> }) {
           <Link href="/conta" onClick={() => setOpen(false)}
             className="mt-1 flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm transition-colors hover:bg-surface-muted">
             <UserRound aria-hidden className="size-4 text-muted" /> {t("account")}
+          </Link>
+          <Link href="/meus-anuncios" onClick={() => setOpen(false)}
+            className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm transition-colors hover:bg-surface-muted">
+            <ListChecks aria-hidden className="size-4 text-muted" /> {t("mine")}
           </Link>
           <form action={signOutAction}>
             <button type="submit"

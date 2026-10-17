@@ -43,7 +43,7 @@ export default async function AccountPage() {
             <dt className="w-24 shrink-0 text-sm text-muted">{t("roles")}</dt>
             <dd data-testid="roles" className="flex flex-wrap gap-1.5">
               {user.roles.map((r) => (
-                <Badge key={r} tone={r === "ADMIN" ? "primary" : r === "STAFF" ? "success" : "neutral"}>{tr(r)}</Badge>
+                <Badge key={r} tone={r === "ADMIN" ? "primary" : "neutral"}>{tr(r)}</Badge>
               ))}
             </dd>
           </div>

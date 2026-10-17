@@ -39,16 +39,16 @@ Every day, students at the University of Minho send emails to report items they 
 |:-:|---|
 | ✅ | Sign-in by magic link, restricted to allowed email domains |
 | ✅ | Optional generic OIDC provider, ready for institutional SSO |
-| ✅ | Roles: user, drop-off point staff and administrator |
+| ✅ | Roles: user and administrator |
 | ✅ | Portuguese (default) and English, light and dark mode |
 | ✅ | Campus locations seeded from public University of Minho sources |
-| 🚧 | Lost and found reports, with search and filters |
-| 🚧 | Guided "I found something" flow that encourages official drop-off |
-| 🚧 | Photo uploads with client-side redaction and EXIF stripping |
-| 🚧 | "It's mine" claims, revealing the drop-off point only to the claimant |
-| 🚧 | Automatic matching and notifications |
-| 🚧 | Private chat between claimant and finder |
-| 🚧 | Staff and administration panels, moderation |
+| ✅ | Lost and found reports, with search, filters and pagination |
+| ✅ | Guided "I found something" flow that encourages official drop-off |
+| ✅ | Photo uploads with client-side cropping/redaction and EXIF stripping |
+| ✅ | "It's mine" reservations, revealing the drop-off place or finder's contact only to the claimant |
+| ✅ | "My posts": lost, found and claimed items, closed by the claimant |
+| 🚧 | Automatic matching and email notifications |
+| 🚧 | Administration panel and moderation |
 | 🚧 | Automatic deletion of every report after 30 days |
 
 ✅ available  ·  🚧 in progress
@@ -97,7 +97,6 @@ In development, the sign-in page offers a one-click login for these seeded accou
 |---|---|
 | `aluno@example.test` | User |
 | `aluno2@example.test` | User |
-| `staff@example.test` | User, Staff (example Gualtar drop-off point) |
 | `admin@example.test` | User, Administrator |
 
 You can also request a magic link for any address in `ALLOWED_EMAIL_DOMAINS`. The email arrives in Mailpit.
@@ -165,8 +164,8 @@ tests/          Unit tests
 ## Roadmap
 
 - [x] **Phase 1 · Foundations.** Project setup, database, authentication, roles, i18n and base layout.
-- [ ] **Phase 2 · Core reports.** Lost and found forms, photos, search, claims and a basic staff panel.
-- [ ] **Phase 3 · Matching and messaging.** Automatic matching, notifications, email and chat.
+- [x] **Phase 2 · Core reports.** Lost and found forms, photos, search, reservations and "My posts".
+- [ ] **Phase 3 · Matching and notifications.** Automatic matching and email notifications.
 - [ ] **Phase 4 · Administration and production.** Admin panel, moderation, scheduled jobs, backups and deployment.
 
 ## License

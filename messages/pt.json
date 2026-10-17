@@ -8,11 +8,11 @@
     "loading": "A carregar…",
     "language": "Idioma",
     "switchTo": "English",
-    "provisional": "Provisório"
+    "provisional": "Provisório",
+    "cancel": "Cancelar"
   },
   "nav": {
     "home": "Início",
-    "staff": "Painel do staff",
     "admin": "Administração",
     "account": "A minha conta",
     "signIn": "Entrar",
@@ -22,7 +22,8 @@
     "closeMenu": "Fechar menu",
     "lost": "Perdi algo",
     "found": "Encontrei algo",
-    "toggleTheme": "Alternar tema claro/escuro"
+    "toggleTheme": "Alternar tema claro/escuro",
+    "mine": "Os meus anúncios"
   },
   "footer": {
     "about": "Plataforma de perdidos e achados para a comunidade da Universidade do Minho. Encaminha os objetos para os pontos de entrega oficiais e protege a privacidade de todos.",
@@ -92,18 +93,7 @@
   },
   "roles": {
     "USER": "Utilizador",
-    "STAFF": "Staff",
     "ADMIN": "Administrador"
-  },
-  "staff": {
-    "title": "Painel do staff",
-    "description": "Os objetos entregues nos teus pontos vão aparecer aqui, com as ações de levantamento.",
-    "points": "Os teus pontos de entrega",
-    "noPoints": "Ainda não estás associado a nenhum ponto de entrega",
-    "noPointsText": "Pede a um administrador para te associar a um ponto.",
-    "today": "Hoje",
-    "closedToday": "Fechado hoje",
-    "itemsSoon": "A lista de objetos chega na próxima fase."
   },
   "admin": {
     "title": "Administração",
@@ -153,21 +143,19 @@
     "yours": "Este anúncio é teu",
     "expiresOn": "Fica visível até {date}.",
     "finderKeeps": "Ficaste com o objeto. Quem o reclamar vai receber estes contactos:",
-    "privateDetails": "Detalhes privados (só tu e o balcão os veem)",
-    "manageSoon": "Editar e fechar anúncios fica disponível em breve, em \"Os meus anúncios\".",
+    "privateDetails": "Detalhes privados (só tu os vês)",
     "sawItTitle": "Viste este objeto?",
     "sawItText": "Publica o que encontraste. Preenchemos o formulário com a categoria, o campus e a cor deste anúncio.",
     "foundSimilar": "Encontrei algo parecido",
     "isItYoursTitle": "É teu?",
-    "isItYoursText": "Ao reclamar, recebes as indicações de onde levantar o objeto. A confirmação é feita ao balcão.",
-    "itsMine": "É meu",
-    "claimSoon": "Reclamar objetos fica disponível na próxima atualização.",
+    "isItYoursText": "Reserva-o e vê onde o podes ir buscar. A confirmação de que é teu é feita presencialmente.",
     "neverPublic": "O local exato onde o objeto está, os detalhes privados e os contactos nunca são públicos.",
-    "handedInAt": "Entregue em"
+    "handedInAt": "Entregue em",
+    "contactLabel": "Contacto de quem encontrou"
   },
   "welcome": {
     "title": "Como te chamas?",
-    "intro": "Só precisamos do teu primeiro nome. Aparece no balcão de levantamento e nas conversas, nunca o email.",
+    "intro": "Só precisamos do teu primeiro nome. É o que os outros veem quando reservas ou devolves um objeto.",
     "label": "Primeiro nome",
     "placeholder": "Ana",
     "hint": "Guardamos apenas a primeira palavra.",
@@ -223,9 +211,9 @@
     "foundAt": "Data e hora",
     "foundAtHint": "Aproximadas.",
     "privateDetails": "Detalhes privados",
-    "privateDetailsText": "Nunca são publicados. Só tu e o staff do ponto de entrega os veem.",
+    "privateDetailsText": "Nunca são publicados. Só tu os vês: servem para confirmares o dono quando te contactar.",
     "privateDetailsLabel": "Algo que só o dono saberia",
-    "privateDetailsPlaceholder": "O que está dentro, autocolantes, fundo do ecrã… Ajuda o balcão a confirmar o dono.",
+    "privateDetailsPlaceholder": "O que está dentro, autocolantes, fundo do ecrã… Ajuda a confirmar quem é o dono.",
     "publicNotice": "O anúncio fica público durante 30 dias, sem os teus dados de contacto.",
     "publishLost": "Publicar anúncio",
     "publishFound": "Publicar anúncio",
@@ -265,7 +253,7 @@
       "pointLabel": "Local de entrega",
       "pointHint": "Escreve livremente ou escolhe uma sugestão.",
       "pointPlaceholder": "Portaria do CP2, balcão da Biblioteca Geral…",
-      "pointLinked": "Ponto conhecido: o staff deste ponto vai ver o objeto.",
+      "pointLinked": "Ponto de entrega conhecido.",
       "pointPrivate": "Este local só é mostrado a quem reclamar o objeto.",
       "contactTitle": "Quem reclamar o objeto vai ver o teu email institucional:",
       "contactExtra": "Outro contacto",
@@ -389,5 +377,98 @@
     "incomplete": "Escolhe o dia e a hora dos dois momentos.",
     "seen": "Visto pela última vez",
     "noticed": "Deu pela falta"
+  },
+  "claim": {
+    "button": "É meu",
+    "title": "Este objeto é teu?",
+    "terms": {
+      "hidden": "O anúncio fica reservado para ti e deixa de estar visível para os outros.",
+      "go": "Vais ver onde foi deixado (ou o contacto de quem o encontrou) e tens de te dirigir lá.",
+      "inPerson": "A confirmação de que é teu é feita presencialmente. Leva um documento de identificação.",
+      "deadline": "Se não confirmares que o recebeste em {days} dias, o anúncio volta a estar visível.",
+      "honest": "Reclamar algo que não é teu impede o verdadeiro dono de o encontrar e fica associado à tua conta."
+    },
+    "accept": "Confirmo que este objeto é meu e aceito estas condições.",
+    "cancel": "Cancelar",
+    "confirm": "Sim, é meu",
+    "signInToClaim": "Entrar para reclamar",
+    "whatHappens": "Depois de reclamares, vês onde está o objeto e vais buscá-lo.",
+    "reservedBy": "Reservado por {name}",
+    "reservedSince": "Desde {date}.",
+    "reservedUntil": "Volta a ficar público a {date} se não for confirmado.",
+    "resolvedReturned": "Resolvido: o objeto foi devolvido.",
+    "resolvedRecovered": "Resolvido: recuperaste o objeto.",
+    "recovered": "Já recuperei",
+    "recoveredTitle": "Recuperaste o objeto?",
+    "recoveredText": "O anúncio deixa de estar visível. Ainda bem!",
+    "closeReturned": "Encerrar anúncio",
+    "closeReturnedTitle": "Encerrar este anúncio?",
+    "closeReturnedText": "Usa isto se o objeto já chegou ao dono por outra via. O anúncio deixa de estar visível.",
+    "finderReturned": "Devolvido",
+    "finderReturnedTitle": "Já devolveste o objeto?",
+    "finderReturnedText": "O anúncio fica resolvido e deixa de estar visível.",
+    "finderRejected": "Não era dele",
+    "finderRejectedTitle": "O objeto não era desta pessoa?",
+    "finderRejectedText": "A reserva é cancelada e o anúncio volta a estar visível para os outros.",
+    "pointNoAction": "Não precisas de fazer nada: quem reclamou confirma quando o levantar.",
+    "completedTitle": "Recebeste este objeto",
+    "completedText": "Obrigado por confirmares. Ainda bem que o recuperaste!",
+    "reservedTitle": "Reservaste este objeto",
+    "reservedTextPoint": "Vai buscá-lo ao local abaixo.",
+    "reservedTextFinder": "Contacta quem o encontrou para combinarem a devolução.",
+    "bringId": "Leva um documento de identificação. A confirmação de que é teu é feita presencialmente.",
+    "deadline": "Reservado até {date}. Depois volta a ficar visível se não confirmares.",
+    "received": "Recebi o objeto",
+    "withdrew": "Afinal não era meu",
+    "withdrewTitle": "Afinal não é teu?",
+    "withdrewText": "A reserva é cancelada e o anúncio volta a estar visível para os outros.",
+    "flash": {
+      "reservado": "Objeto reservado. Vê abaixo onde o podes ir buscar.",
+      "concluido": "Obrigado! Ficou registado que recebeste o objeto.",
+      "encerrado": "Anúncio encerrado.",
+      "reaberto": "A reserva foi cancelada e o anúncio voltou a estar visível.",
+      "recuperado": "Ainda bem que o recuperaste! O anúncio deixou de estar visível.",
+      "desistiu": "Reserva cancelada. O anúncio voltou a estar visível."
+    },
+    "errors": {
+      "ownReport": "Não podes reclamar o teu próprio anúncio.",
+      "notAvailable": "Este objeto já não está disponível (pode ter sido reservado por outra pessoa).",
+      "activeClaimExists": "Já tens uma reserva ativa. Fecha-a primeiro em \"Os meus anúncios\".",
+      "tooManyClaims": "Atingiste o limite de reclamações. Tenta novamente daqui a uns dias.",
+      "termsNotAccepted": "Tens de aceitar as condições.",
+      "notAllowed": "Esta ação já não é possível."
+    },
+    "status": {
+      "CLAIMED": "Reservado",
+      "RETURNED": "Resolvido",
+      "RECOVERED": "Recuperado",
+      "ACTIVE_REPORT": "Ativo"
+    },
+    "claimStatus": {
+      "ACTIVE": "Reservado por ti",
+      "COMPLETED": "Recebido",
+      "REJECTED": "Cancelado",
+      "EXPIRED": "Expirou"
+    }
+  },
+  "myReports": {
+    "title": "Os meus anúncios",
+    "description": "Os objetos que perdeste, os que encontraste e os que reclamaste.",
+    "pending": "{count, plural, one {Tens # reserva por resolver.} other {Tens # reservas por resolver.}}",
+    "tabsLabel": "Separadores",
+    "tabs": {
+      "perdidos": "Perdidos",
+      "encontrados": "Encontrados",
+      "pedidos": "Os meus pedidos"
+    },
+    "emptyLost": "Não tens objetos perdidos",
+    "emptyLostText": "Quando perderes algo, publica um anúncio e avisamos-te se surgir algo parecido.",
+    "newLost": "Perdi algo",
+    "emptyFound": "Ainda não publicaste objetos encontrados",
+    "emptyFoundText": "Encontraste algo? Publica em segundos e ajuda alguém a recuperá-lo.",
+    "newFound": "Encontrei algo",
+    "emptyClaims": "Ainda não reclamaste nenhum objeto",
+    "emptyClaimsText": "Quando carregares em \"É meu\" num anúncio, a reserva aparece aqui.",
+    "finderAttention": "Alguém reservou este objeto: vai entrar em contacto contigo."
   }
 }

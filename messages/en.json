@@ -8,11 +8,11 @@
     "loading": "Loading…",
     "language": "Language",
     "switchTo": "Português",
-    "provisional": "Provisional"
+    "provisional": "Provisional",
+    "cancel": "Cancel"
   },
   "nav": {
     "home": "Home",
-    "staff": "Staff panel",
     "admin": "Administration",
     "account": "My account",
     "signIn": "Sign in",
@@ -22,7 +22,8 @@
     "closeMenu": "Close menu",
     "lost": "I lost something",
     "found": "I found something",
-    "toggleTheme": "Toggle light/dark theme"
+    "toggleTheme": "Toggle light/dark theme",
+    "mine": "My posts"
   },
   "footer": {
     "about": "Lost and found for the University of Minho community. It points items to the official drop-off points and protects everyone's privacy.",
@@ -92,18 +93,7 @@
   },
   "roles": {
     "USER": "User",
-    "STAFF": "Staff",
     "ADMIN": "Administrator"
-  },
-  "staff": {
-    "title": "Staff panel",
-    "description": "Items handed in at your points will appear here, with pick-up actions.",
-    "points": "Your drop-off points",
-    "noPoints": "You're not assigned to any drop-off point yet",
-    "noPointsText": "Ask an administrator to assign you to a point.",
-    "today": "Today",
-    "closedToday": "Closed today",
-    "itemsSoon": "The item list arrives in the next phase."
   },
   "admin": {
     "title": "Administration",
@@ -153,21 +143,19 @@
     "yours": "This is your post",
     "expiresOn": "Visible until {date}.",
     "finderKeeps": "You kept the item. Whoever claims it will get these contacts:",
-    "privateDetails": "Private details (only you and the desk can see them)",
-    "manageSoon": "Editing and closing posts will soon be available in \"My posts\".",
+    "privateDetails": "Private details (only you can see them)",
     "sawItTitle": "Have you seen this item?",
     "sawItText": "Post what you found. We'll prefill the form with this post's category, campus and colour.",
     "foundSimilar": "I found something similar",
     "isItYoursTitle": "Is it yours?",
-    "isItYoursText": "When you claim it, you'll be told where to pick it up. Ownership is confirmed at the desk.",
-    "itsMine": "It's mine",
-    "claimSoon": "Claiming items will be available in the next update.",
+    "isItYoursText": "Reserve it and see where you can collect it. Ownership is confirmed in person.",
     "neverPublic": "The exact location of the item, private details and contacts are never public.",
-    "handedInAt": "Handed in at"
+    "handedInAt": "Handed in at",
+    "contactLabel": "Finder's contact"
   },
   "welcome": {
     "title": "What's your name?",
-    "intro": "We only need your first name. It's shown at the pick-up desk and in chats, never your email.",
+    "intro": "We only need your first name. It is what others see when you reserve or return an item.",
     "label": "First name",
     "placeholder": "Ana",
     "hint": "We only keep the first word.",
@@ -223,9 +211,9 @@
     "foundAt": "Date and time",
     "foundAtHint": "Approximate.",
     "privateDetails": "Private details",
-    "privateDetailsText": "Never published. Only you and the drop-off point staff can see them.",
+    "privateDetailsText": "Never published. Only you can see them: use them to confirm the owner when they contact you.",
     "privateDetailsLabel": "Something only the owner would know",
-    "privateDetailsPlaceholder": "What's inside, stickers, lock screen… Helps the desk confirm the owner.",
+    "privateDetailsPlaceholder": "What is inside, stickers, lock screen… Helps confirm who the owner is.",
     "publicNotice": "The post stays public for 30 days, without your contact details.",
     "publishLost": "Publish post",
     "publishFound": "Publish post",
@@ -265,7 +253,7 @@
       "pointLabel": "Drop-off place",
       "pointHint": "Type freely or pick a suggestion.",
       "pointPlaceholder": "CP2 gatehouse, General Library desk…",
-      "pointLinked": "Known point: its staff will see the item.",
+      "pointLinked": "Known drop-off point.",
       "pointPrivate": "This place is only shown to whoever claims the item.",
       "contactTitle": "Whoever claims the item will see your university email:",
       "contactExtra": "Other contact",
@@ -389,5 +377,98 @@
     "incomplete": "Choose the day and time of both moments.",
     "seen": "Last seen",
     "noticed": "Noticed missing"
+  },
+  "claim": {
+    "button": "It's mine",
+    "title": "Is this item yours?",
+    "terms": {
+      "hidden": "The post is reserved for you and is no longer visible to others.",
+      "go": "You'll see where it was left (or the finder's contact) and need to go there.",
+      "inPerson": "Ownership is confirmed in person. Bring an ID document.",
+      "deadline": "If you don't confirm you received it within {days} days, the post becomes visible again.",
+      "honest": "Claiming something that isn't yours stops the real owner from finding it and is linked to your account."
+    },
+    "accept": "I confirm this item is mine and accept these conditions.",
+    "cancel": "Cancel",
+    "confirm": "Yes, it's mine",
+    "signInToClaim": "Sign in to claim",
+    "whatHappens": "After claiming, you'll see where the item is and go collect it.",
+    "reservedBy": "Reserved by {name}",
+    "reservedSince": "Since {date}.",
+    "reservedUntil": "Becomes public again on {date} if not confirmed.",
+    "resolvedReturned": "Resolved: the item was returned.",
+    "resolvedRecovered": "Resolved: you recovered the item.",
+    "recovered": "I got it back",
+    "recoveredTitle": "Did you get the item back?",
+    "recoveredText": "The post will no longer be visible. Great news!",
+    "closeReturned": "Close post",
+    "closeReturnedTitle": "Close this post?",
+    "closeReturnedText": "Use this if the item already reached its owner another way. The post will no longer be visible.",
+    "finderReturned": "Returned",
+    "finderReturnedTitle": "Have you returned the item?",
+    "finderReturnedText": "The post is resolved and no longer visible.",
+    "finderRejected": "Not theirs",
+    "finderRejectedTitle": "The item didn't belong to this person?",
+    "finderRejectedText": "The reservation is cancelled and the post becomes visible to others again.",
+    "pointNoAction": "You don't need to do anything: the claimant confirms when they pick it up.",
+    "completedTitle": "You received this item",
+    "completedText": "Thanks for confirming. Glad you got it back!",
+    "reservedTitle": "You reserved this item",
+    "reservedTextPoint": "Collect it at the place below.",
+    "reservedTextFinder": "Contact the finder to arrange the return.",
+    "bringId": "Bring an ID document. Ownership is confirmed in person.",
+    "deadline": "Reserved until {date}. After that it becomes visible again unless you confirm.",
+    "received": "I received the item",
+    "withdrew": "It's not mine after all",
+    "withdrewTitle": "Not yours after all?",
+    "withdrewText": "The reservation is cancelled and the post becomes visible to others again.",
+    "flash": {
+      "reservado": "Item reserved. See below where you can collect it.",
+      "concluido": "Thanks! We've recorded that you received the item.",
+      "encerrado": "Post closed.",
+      "reaberto": "The reservation was cancelled and the post is visible again.",
+      "recuperado": "Glad you got it back! The post is no longer visible.",
+      "desistiu": "Reservation cancelled. The post is visible again."
+    },
+    "errors": {
+      "ownReport": "You can't claim your own post.",
+      "notAvailable": "This item is no longer available (someone else may have reserved it).",
+      "activeClaimExists": "You already have an active reservation. Close it first in \"My posts\".",
+      "tooManyClaims": "You've reached the claim limit. Try again in a few days.",
+      "termsNotAccepted": "You need to accept the conditions.",
+      "notAllowed": "This action is no longer possible."
+    },
+    "status": {
+      "CLAIMED": "Reserved",
+      "RETURNED": "Resolved",
+      "RECOVERED": "Recovered",
+      "ACTIVE_REPORT": "Active"
+    },
+    "claimStatus": {
+      "ACTIVE": "Reserved by you",
+      "COMPLETED": "Received",
+      "REJECTED": "Cancelled",
+      "EXPIRED": "Expired"
+    }
+  },
+  "myReports": {
+    "title": "My posts",
+    "description": "Items you lost, items you found and items you claimed.",
+    "pending": "{count, plural, one {You have # reservation to resolve.} other {You have # reservations to resolve.}}",
+    "tabsLabel": "Tabs",
+    "tabs": {
+      "perdidos": "Lost",
+      "encontrados": "Found",
+      "pedidos": "My claims"
+    },
+    "emptyLost": "You have no lost items",
+    "emptyLostText": "When you lose something, post it and we'll let you know if something similar turns up.",
+    "newLost": "I lost something",
+    "emptyFound": "You haven't posted found items yet",
+    "emptyFoundText": "Found something? Post it in seconds and help someone get it back.",
+    "newFound": "I found something",
+    "emptyClaims": "You haven't claimed any item yet",
+    "emptyClaimsText": "When you press \"It's mine\" on a post, the reservation shows up here.",
+    "finderAttention": "Someone reserved this item: they'll get in touch with you."
   }
 }

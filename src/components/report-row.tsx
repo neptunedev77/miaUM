@@ -48,7 +48,15 @@ export function CustodyLabel({ custody, className, icon = true }: {
 }
 
 /** Linha da lista compacta (versão "alta", com destaque). */
-export function ReportRow({ report, index = 0, preview = false }: { report: ReportSummary; index?: number; preview?: boolean }) {
+export function ReportRow({ report, index = 0, preview = false, badge, footer }: {
+  report: ReportSummary;
+  index?: number;
+  preview?: boolean;
+  /** Etiqueta extra (ex.: estado em "Os meus anúncios"). */
+  badge?: React.ReactNode;
+  /** Linha extra por baixo (ex.: prazo da reserva). */
+  footer?: React.ReactNode;
+}) {
   const t = useTranslations("report");
   const tc = useTranslations("colors");
   const format = useFormatter();
@@ -76,7 +84,10 @@ export function ReportRow({ report, index = 0, preview = false }: { report: Repo
       </div>
       <div className="min-w-0 flex-1 space-y-1.5">
         <div className="flex items-center justify-between gap-2">
-          <Badge tone={lost ? "primary" : "success"}>{t(lost ? "lostBadge" : "foundBadge")}</Badge>
+          <span className="flex flex-wrap items-center gap-1.5">
+            <Badge tone={lost ? "primary" : "success"}>{t(lost ? "lostBadge" : "foundBadge")}</Badge>
+            {badge}
+          </span>
           <time dateTime={report.publishedAt.toISOString()} className="shrink-0 text-xs text-muted">
             {format.relativeTime(report.publishedAt, new Date())}
           </time>
@@ -88,6 +99,7 @@ export function ReportRow({ report, index = 0, preview = false }: { report: Repo
           {report.color && <span>{tc(report.color)}</span>}
           {report.custody && <CustodyLabel custody={report.custody} />}
         </div>
+        {footer}
       </div>
       {!preview && (
         <ChevronRight aria-hidden className="hidden size-5 shrink-0 self-center text-muted transition-transform duration-200 group-hover:translate-x-0.5 sm:block" />
