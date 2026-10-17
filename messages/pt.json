@@ -8,7 +8,7 @@
     "loading": "A carregar…",
     "language": "Idioma",
     "switchTo": "English",
-    "provisionalNotice": "Versão de desenvolvimento. Os pontos de entrega e horários são dados de exemplo."
+    "provisional": "Provisório"
   },
   "nav": {
     "home": "Início",
@@ -17,28 +17,62 @@
     "account": "A minha conta",
     "signIn": "Entrar",
     "signOut": "Sair",
-    "mainNav": "Navegação principal"
-  },
-  "home": {
-    "title": "Perdidos e achados da Universidade do Minho",
-    "intro": "Encontraste um objeto ou perdeste algo num dos campi? Publica aqui e nós ajudamos a juntar o objeto ao dono.",
+    "mainNav": "Navegação principal",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
     "lost": "Perdi algo",
     "found": "Encontrei algo",
+    "toggleTheme": "Alternar tema claro/escuro"
+  },
+  "footer": {
+    "about": "Plataforma de perdidos e achados para a comunidade da Universidade do Minho. Encaminha os objetos para os pontos de entrega oficiais e protege a privacidade de todos.",
+    "linksTitle": "Navegação",
+    "independent": "Projeto independente. Não é um serviço oficial da Universidade do Minho.",
+    "provisional": "Versão de desenvolvimento: pontos de entrega e horários são dados de exemplo."
+  },
+  "home": {
+    "eyebrow": "Gualtar · Azurém · Couros",
+    "title": "Perdidos e achados da Universidade do Minho",
+    "intro": "Encontraste um objeto ou perdeste algo num dos campi? Publica aqui e ajudamos a devolvê-lo ao dono, de forma simples e segura.",
+    "lost": "Perdi algo",
+    "found": "Encontrei algo",
+    "howTitle": "Como funciona",
+    "steps": {
+      "1": {
+        "title": "Publica",
+        "text": "Quem perde ou encontra descreve o objeto, o campus e o local."
+      },
+      "2": {
+        "title": "Encontramos correspondências",
+        "text": "A app sugere automaticamente anúncios parecidos e notifica quem perdeu."
+      },
+      "3": {
+        "title": "Levanta em segurança",
+        "text": "O dono reclama o objeto e recebe a indicação do ponto onde o levantar."
+      }
+    },
+    "privacyTitle": "Privacidade por omissão",
+    "privacyText": "O público só vê onde e quando o objeto foi encontrado. O local de entrega e os contactos só são revelados a quem reclama o objeto.",
     "listTitle": "Anúncios recentes",
-    "empty": "Ainda não há anúncios.",
-    "oldNotice": "Perdeste algo há mais de 30 dias? Pergunta diretamente nos pontos de entrega."
+    "empty": "Ainda não há anúncios",
+    "emptyText": "Os anúncios de objetos perdidos e encontrados vão aparecer aqui.",
+    "oldNotice": "Perdeste algo há mais de 30 dias? Pergunta diretamente nos pontos de entrega.",
+    "howText": "Três passos para devolver um objeto ao dono."
   },
   "login": {
-    "title": "Entrar",
-    "intro": "Entra com o teu email institucional. Enviamos-te um link que expira em 15 minutos.",
+    "title": "Entrar no miaUM",
+    "intro": "Usa o teu email institucional. Enviamos-te um link que expira em 15 minutos, sem palavras-passe.",
     "emailLabel": "Email institucional",
-    "submit": "Enviar link",
+    "submit": "Enviar link de acesso",
     "or": "ou",
     "oidc": "Entrar com {name}",
-    "devTitle": "Login rápido (apenas em desenvolvimento)",
-    "devAs": "Entrar como {name} ({roles})",
+    "devTitle": "Login rápido",
+    "devBadge": "Só em desenvolvimento",
+    "devAs": "Entrar como {name}",
     "checkTitle": "Verifica o teu email",
-    "checkText": "Se o email for válido, vais receber um link para entrar. Pode demorar alguns minutos; verifica também o spam.",
+    "checkText": "Se o email for válido, vais receber um link para entrar. Pode demorar alguns minutos; verifica também a pasta de spam.",
+    "checkHint": "Podes fechar esta página. O link abre a app já com a sessão iniciada.",
+    "tryAgain": "Usar outro email",
     "errors": {
       "AccessDenied": "Este email não pode ser usado. Usa o teu email institucional.",
       "Verification": "O link expirou ou já foi usado. Pede um novo.",
@@ -49,10 +83,14 @@
   },
   "account": {
     "title": "A minha conta",
+    "description": "Os dados que guardamos sobre ti: apenas o primeiro nome e o email.",
+    "profile": "Perfil",
     "name": "Nome",
     "email": "Email",
     "roles": "Perfis",
-    "noName": "(sem nome)"
+    "noName": "(sem nome)",
+    "language": "Idioma",
+    "languageValue": "Português"
   },
   "roles": {
     "USER": "Utilizador",
@@ -61,25 +99,40 @@
   },
   "staff": {
     "title": "Painel do staff",
+    "description": "Os objetos entregues nos teus pontos vão aparecer aqui, com as ações de levantamento.",
     "points": "Os teus pontos de entrega",
-    "noPoints": "Ainda não estás associado a nenhum ponto de entrega."
+    "noPoints": "Ainda não estás associado a nenhum ponto de entrega",
+    "noPointsText": "Pede a um administrador para te associar a um ponto.",
+    "today": "Hoje",
+    "closedToday": "Fechado hoje",
+    "itemsSoon": "A lista de objetos chega na próxima fase."
   },
   "admin": {
     "title": "Administração",
+    "description": "Visão geral dos dados da plataforma.",
     "stats": "Resumo dos dados",
     "campi": "Campi",
     "locations": "Locais",
     "categories": "Categorias",
     "points": "Pontos de entrega",
-    "users": "Utilizadores"
+    "users": "Utilizadores",
+    "toolsSoon": "A gestão de pontos, perfis e moderação chega na Fase 4."
   },
   "errors": {
     "forbiddenTitle": "Sem acesso",
     "forbiddenText": "Não tens permissão para ver esta página.",
     "notFoundTitle": "Página não encontrada",
-    "notFoundText": "A página que procuras não existe.",
+    "notFoundText": "A página que procuras não existe ou foi removida.",
     "genericTitle": "Algo correu mal",
     "genericText": "Ocorreu um erro inesperado. Tenta novamente.",
     "retry": "Tentar novamente"
+  },
+  "report": {
+    "lostTitle": "Perdi algo",
+    "lostText": "Aqui vais poder descrever o objeto que perdeste e receber avisos quando surgir algo parecido.",
+    "foundTitle": "Encontrei algo",
+    "foundText": "Aqui vais poder publicar o objeto que encontraste e ver os pontos de entrega mais próximos.",
+    "soonTitle": "O formulário chega na próxima fase",
+    "soonText": "Estamos a construir esta parte do miaUM. Entretanto, se encontraste um objeto, entrega-o num ponto oficial."
   }
 }

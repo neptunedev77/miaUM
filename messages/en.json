@@ -8,7 +8,7 @@
     "loading": "Loading…",
     "language": "Language",
     "switchTo": "Português",
-    "provisionalNotice": "Development version. Drop-off points and opening hours are example data."
+    "provisional": "Provisional"
   },
   "nav": {
     "home": "Home",
@@ -17,28 +17,62 @@
     "account": "My account",
     "signIn": "Sign in",
     "signOut": "Sign out",
-    "mainNav": "Main navigation"
-  },
-  "home": {
-    "title": "University of Minho lost and found",
-    "intro": "Found something or lost something on campus? Post it here and we'll help reunite the item with its owner.",
+    "mainNav": "Main navigation",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
     "lost": "I lost something",
     "found": "I found something",
+    "toggleTheme": "Toggle light/dark theme"
+  },
+  "footer": {
+    "about": "Lost and found for the University of Minho community. It points items to the official drop-off points and protects everyone's privacy.",
+    "linksTitle": "Navigation",
+    "independent": "Independent project. Not an official University of Minho service.",
+    "provisional": "Development version: drop-off points and opening hours are example data."
+  },
+  "home": {
+    "eyebrow": "Gualtar · Azurém · Couros",
+    "title": "University of Minho lost and found",
+    "intro": "Found something or lost something on campus? Post it here and we'll help get it back to its owner, simply and safely.",
+    "lost": "I lost something",
+    "found": "I found something",
+    "howTitle": "How it works",
+    "steps": {
+      "1": {
+        "title": "Post",
+        "text": "Whoever loses or finds an item describes it, the campus and the place."
+      },
+      "2": {
+        "title": "We find matches",
+        "text": "The app suggests similar posts automatically and notifies the owner."
+      },
+      "3": {
+        "title": "Collect it safely",
+        "text": "The owner claims the item and is told where to pick it up."
+      }
+    },
+    "privacyTitle": "Private by default",
+    "privacyText": "The public only sees where and when an item was found. The drop-off location and contacts are revealed only to the person who claims it.",
     "listTitle": "Recent posts",
-    "empty": "No posts yet.",
-    "oldNotice": "Lost something more than 30 days ago? Ask directly at the drop-off points."
+    "empty": "No posts yet",
+    "emptyText": "Lost and found posts will appear here.",
+    "oldNotice": "Lost something more than 30 days ago? Ask directly at the drop-off points.",
+    "howText": "Three steps to get an item back to its owner."
   },
   "login": {
-    "title": "Sign in",
-    "intro": "Sign in with your university email. We'll send you a link that expires in 15 minutes.",
+    "title": "Sign in to miaUM",
+    "intro": "Use your university email. We'll send you a link that expires in 15 minutes, no password needed.",
     "emailLabel": "University email",
-    "submit": "Send link",
+    "submit": "Send sign-in link",
     "or": "or",
     "oidc": "Sign in with {name}",
-    "devTitle": "Quick sign-in (development only)",
-    "devAs": "Sign in as {name} ({roles})",
+    "devTitle": "Quick sign-in",
+    "devBadge": "Development only",
+    "devAs": "Sign in as {name}",
     "checkTitle": "Check your email",
     "checkText": "If the email is valid, you'll receive a sign-in link. It may take a few minutes; check your spam folder too.",
+    "checkHint": "You can close this page. The link opens the app already signed in.",
+    "tryAgain": "Use a different email",
     "errors": {
       "AccessDenied": "This email can't be used. Please use your university email.",
       "Verification": "The link has expired or was already used. Request a new one.",
@@ -49,10 +83,14 @@
   },
   "account": {
     "title": "My account",
+    "description": "The data we keep about you: only your first name and email.",
+    "profile": "Profile",
     "name": "Name",
     "email": "Email",
     "roles": "Roles",
-    "noName": "(no name)"
+    "noName": "(no name)",
+    "language": "Language",
+    "languageValue": "English"
   },
   "roles": {
     "USER": "User",
@@ -61,25 +99,40 @@
   },
   "staff": {
     "title": "Staff panel",
+    "description": "Items handed in at your points will appear here, with pick-up actions.",
     "points": "Your drop-off points",
-    "noPoints": "You're not assigned to any drop-off point yet."
+    "noPoints": "You're not assigned to any drop-off point yet",
+    "noPointsText": "Ask an administrator to assign you to a point.",
+    "today": "Today",
+    "closedToday": "Closed today",
+    "itemsSoon": "The item list arrives in the next phase."
   },
   "admin": {
     "title": "Administration",
+    "description": "Overview of the platform's data.",
     "stats": "Data overview",
     "campi": "Campuses",
     "locations": "Locations",
     "categories": "Categories",
     "points": "Drop-off points",
-    "users": "Users"
+    "users": "Users",
+    "toolsSoon": "Managing points, roles and moderation arrives in Phase 4."
   },
   "errors": {
     "forbiddenTitle": "No access",
     "forbiddenText": "You don't have permission to see this page.",
     "notFoundTitle": "Page not found",
-    "notFoundText": "The page you're looking for doesn't exist.",
+    "notFoundText": "The page you're looking for doesn't exist or was removed.",
     "genericTitle": "Something went wrong",
     "genericText": "An unexpected error occurred. Please try again.",
     "retry": "Try again"
+  },
+  "report": {
+    "lostTitle": "I lost something",
+    "lostText": "Here you will be able to describe the item you lost and get notified when something similar turns up.",
+    "foundTitle": "I found something",
+    "foundText": "Here you will be able to post the item you found and see the nearest drop-off points.",
+    "soonTitle": "The form arrives in the next phase",
+    "soonText": "We are building this part of miaUM. Meanwhile, if you found an item, please hand it in at an official point."
   }
 }

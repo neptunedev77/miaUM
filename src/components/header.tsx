@@ -1,51 +1,31 @@
 import Link from "next/link";
-import { getLocale, getTranslations } from "next-intl/server";
-import { setLocale, signOutAction } from "@/app/actions";
+import { getLocale } from "next-intl/server";
 import { getCurrentUser, hasRole } from "@/server/session";
 import { displayName } from "@/domain/email";
-
-const linkClass = "rounded px-2 py-1 hover:bg-border/40";
+import { Logo } from "./logo";
+import { NavBar, type NavItem } from "./nav-bar";
 
 export async function Header() {
-  const [t, tc, locale, user] = await Promise.all([
-    getTranslations("nav"),
-    getTranslations("common"),
-    getLocale(),
-    getCurrentUser(),
-  ]);
-  const otherLocale = locale === "pt" ? "en" : "pt";
+  const [locale, user] = await Promise.all([getLocale(), getCurrentUser()]);
+
+  const items: NavItem[] = [{ href: "/", key: "home" }];
+  if (hasRole(user, "STAFF")) items.push({ href: "/staff", key: "staff" });
+  if (hasRole(user, "ADMIN")) items.push({ href: "/admin", key: "admin" });
 
   return (
-    <header className="border-b border-border bg-surface">
-      <div className="mx-auto flex w-full max-w-4xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
-        <Link href="/" className="text-xl font-bold text-accent">
-          {tc("appName")}
+    <header
+      style={{ viewTransitionName: "site-header" }}
+      className="sticky top-0 z-40 border-b border-border/80 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70"
+    >
+      <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-6 px-4 sm:px-6">
+        <Link href="/" className="group shrink-0 rounded-lg" aria-label="miaUM">
+          <Logo />
         </Link>
-        <nav aria-label={t("mainNav")} className="flex flex-1 flex-wrap items-center gap-1 text-sm">
-          <Link href="/" className={linkClass}>{t("home")}</Link>
-          {hasRole(user, "STAFF") && <Link href="/staff" className={linkClass}>{t("staff")}</Link>}
-          {hasRole(user, "ADMIN") && <Link href="/admin" className={linkClass}>{t("admin")}</Link>}
-        </nav>
-        <div className="flex items-center gap-2 text-sm">
-          <form action={setLocale}>
-            <input type="hidden" name="locale" value={otherLocale} />
-            <button type="submit" className={linkClass} lang={otherLocale} aria-label={`${tc("language")}: ${tc("switchTo")}`}>
-              {otherLocale.toUpperCase()}
-            </button>
-          </form>
-          {user ? (
-            <>
-              <Link href="/conta" className={linkClass}>{displayName(user.name, user.email)}</Link>
-              <form action={signOutAction}>
-                <button type="submit" className={linkClass}>{t("signOut")}</button>
-              </form>
-            </>
-          ) : (
-            <Link href="/entrar" className="rounded bg-accent px-3 py-1 font-medium text-accent-foreground">
-              {t("signIn")}
-            </Link>
-          )}
-        </div>
+        <NavBar
+          items={items}
+          locale={locale === "en" ? "en" : "pt"}
+          user={user ? { name: displayName(user.name, user.email), email: user.email } : null}
+        />
       </div>
     </header>
   );
