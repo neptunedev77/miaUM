@@ -1,9 +1,12 @@
 name: CI
 
+# Desativada temporariamente: só corre manualmente (Actions → CI → Run workflow).
+# Para reativar, repor:
+#   push:
+#     branches: [main]
+#   pull_request:
 on:
-  push:
-    branches: [main]
-  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read

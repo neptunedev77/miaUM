@@ -1,56 +1,174 @@
-# miaUM — Perdidos e Achados da UMinho
+<div align="center">
 
-> Lost something at UM? Just miaUM.
+# miaUM
 
-Aplicação web (mobile-first, PT/EN) para centralizar os objetos perdidos e encontrados nos campi da Universidade do Minho, incentivando a entrega nos pontos de entrega oficiais. Projeto independente; não usa a identidade visual oficial da UMinho.
+**Lost and found for the University of Minho**
 
-## Arrancar em desenvolvimento
+*Lost something at UM? Just miaUM.*
 
-Requisitos: Node.js 22+ e Docker (Docker Desktop no Windows/macOS).
+![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-7-2D3748?logo=prisma&logoColor=white)
+![Status](https://img.shields.io/badge/status-early%20development-orange)
+
+</div>
+
+---
+
+## Overview
+
+Every day, students at the University of Minho send emails to report items they have lost or found on campus. It clutters inboxes and makes it hard to connect the person who lost something with the person who found it.
+
+**miaUM** brings those reports into a single, mobile-first web app. It encourages finders to hand items in at an official drop-off point, suggests likely matches between lost and found reports, and protects everyone's privacy along the way.
+
+> [!NOTE]
+> miaUM is an independent student project. It is not an official University of Minho service and does not use the university's logo or visual identity.
+
+## Principles
+
+- **Complements the official process.** The app points people to official drop-off points. Ownership is confirmed in person, at the desk.
+- **Minimal effort for finders.** Post the item and move on. No verification questions, no approving claims.
+- **Private by default.** The public only sees where and when an item was found. The exact drop-off location and any contact are revealed only to the person who claims the item.
+- **Simple to run.** A single Next.js app and a PostgreSQL database. No queues, no Redis, no Kubernetes: the load is around ten reports a day.
+- **Zero cost.** Built entirely on free, open-source tools. Production needs only a Linux VM and an SMTP server.
+
+## Features
+
+| | Feature |
+|:-:|---|
+| ✅ | Sign-in by magic link, restricted to allowed email domains |
+| ✅ | Optional generic OIDC provider, ready for institutional SSO |
+| ✅ | Roles: user, drop-off point staff and administrator |
+| ✅ | Portuguese (default) and English, light and dark mode |
+| ✅ | Campus locations seeded from public University of Minho sources |
+| 🚧 | Lost and found reports, with search and filters |
+| 🚧 | Guided "I found something" flow that encourages official drop-off |
+| 🚧 | Photo uploads with client-side redaction and EXIF stripping |
+| 🚧 | "It's mine" claims, revealing the drop-off point only to the claimant |
+| 🚧 | Automatic matching and notifications |
+| 🚧 | Private chat between claimant and finder |
+| 🚧 | Staff and administration panels, moderation |
+| 🚧 | Automatic deletion of every report after 30 days |
+
+✅ available  ·  🚧 in progress
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| Framework | [Next.js](https://nextjs.org) 16 (App Router), React 19, TypeScript (strict) |
+| Styling | [Tailwind CSS](https://tailwindcss.com) 4 |
+| Database | PostgreSQL 16 with [Prisma](https://www.prisma.io) 7 |
+| Authentication | [Auth.js](https://authjs.dev): email magic links and generic OIDC |
+| Validation | [Zod](https://zod.dev) |
+| Internationalisation | [next-intl](https://next-intl.dev) |
+| Email | Nodemailer over SMTP ([Mailpit](https://mailpit.axllent.org) in development) |
+| Testing | [Vitest](https://vitest.dev) |
+
+## Getting started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org) 22 or later
+- [Docker](https://www.docker.com) (Docker Desktop on Windows and macOS)
+
+### Setup
 
 ```bash
-npm run setup   # instala, cria o .env, levanta Postgres + Mailpit, migra e corre o seed
-npm run dev     # http://localhost:3000
+git clone https://github.com/neptunedev77/miaUM.git
+cd miaUM
+npm run setup
+npm run dev
 ```
 
-- **Mailpit** (emails de login): http://localhost:8025
-- **Utilizadores de teste** (login rápido em `/entrar`, só em desenvolvimento):
+`npm run setup` installs dependencies, creates a `.env` file with random secrets, starts PostgreSQL and Mailpit in Docker, applies migrations and seeds the database.
 
-| Email | Perfis |
+| Service | URL |
 |---|---|
-| `aluno@example.test` | Utilizador |
-| `aluno2@example.test` | Utilizador |
-| `staff@example.test` | Utilizador, Staff (ponto de exemplo de Gualtar) |
-| `admin@example.test` | Utilizador, Administrador |
+| App | http://localhost:3000 |
+| Mailpit (sign-in emails) | http://localhost:8025 |
 
-Também podes entrar por link mágico com qualquer email de `ALLOWED_EMAIL_DOMAINS`. O link aparece no Mailpit.
+### Test accounts
+
+In development, the sign-in page offers a one-click login for these seeded accounts. All emails use the reserved `example.test` domain.
+
+| Email | Roles |
+|---|---|
+| `aluno@example.test` | User |
+| `aluno2@example.test` | User |
+| `staff@example.test` | User, Staff (example Gualtar drop-off point) |
+| `admin@example.test` | User, Administrator |
+
+You can also request a magic link for any address in `ALLOWED_EMAIL_DOMAINS`. The email arrives in Mailpit.
 
 ## Scripts
 
-| Comando | Faz |
+| Command | Description |
 |---|---|
-| `npm run dev` | Servidor de desenvolvimento |
-| `npm run test` / `npm run test:coverage` | Testes unitários (Vitest) |
-| `npm run lint` / `npm run typecheck` | Qualidade |
-| `npm run db:up` / `npm run db:down` | Liga/desliga Postgres e Mailpit |
-| `npm run db:migrate` | Cria/aplica migrações |
-| `npm run db:reset` | Apaga a BD local, volta a migrar e a correr o seed |
+| `npm run dev` | Start the development server |
+| `npm run build` | Build for production |
+| `npm run lint` | Lint with ESLint |
+| `npm run typecheck` | Type-check with TypeScript |
+| `npm run test` | Run unit tests |
+| `npm run test:coverage` | Run unit tests with coverage |
+| `npm run db:up` / `db:down` | Start or stop PostgreSQL and Mailpit |
+| `npm run db:migrate` | Create and apply migrations |
+| `npm run db:reset` | Reset the local database and re-seed it |
 
-## Arquitetura
+Before committing, run the full check:
+
+```bash
+npm run lint && npm run typecheck && npm run test && npm run build
+```
+
+## Architecture
 
 ```mermaid
 flowchart LR
-  U[Browser] --> A[Next.js app<br/>páginas + server actions + /api/cron]
-  A --> DB[(PostgreSQL)]
-  A --> FS[(Pasta uploads)]
-  A --> SMTP[SMTP<br/>Mailpit em dev]
-  C[cron] -->|HTTP + CRON_SECRET| A
+    U[Browser] --> A["Next.js app<br/>pages · server actions · cron routes"]
+    A --> DB[(PostgreSQL)]
+    A --> FS[(Uploads folder)]
+    A --> SMTP[SMTP server]
+    C[cron] -->|HTTPS + secret| A
 ```
 
-Um único processo Next.js (App Router, TypeScript, Tailwind) com Prisma/PostgreSQL. Login por link mágico (Auth.js), com OIDC genérico opcional para o SSO institucional. As tarefas periódicas são rotas internas chamadas por cron. Sem Redis, filas externas ou S3.
+miaUM runs as **one Next.js process**. Scheduled jobs (sending emails, reverting stale claims, expiring reports) will be internal routes called by a small cron container, protected by a shared secret. Emails will go through a database outbox with retries, so none are lost if the SMTP server is down.
 
-## Dados
+### Project structure
 
-- As localizações em `prisma/seed/locations.ts` vêm de fontes públicas da UMinho e indicam a fonte e o estado (`confirmado`/`provisorio`) de cada local.
-- Os pontos de entrega e horários são **dados de exemplo (PROVISÓRIO)** até haver a lista oficial.
-- Os utilizadores de teste usam o domínio inventado `example.test`.
+```
+src/
+  app/          Routes, pages and server actions
+  components/   Shared UI components
+  domain/       Pure business rules (no framework code)
+  server/       Database, authentication, email and rate limiting
+  i18n/         Locale configuration
+messages/       Translations (pt, en)
+prisma/         Schema, migrations and seed data
+infra/          Docker Compose for local services
+tests/          Unit tests
+```
+
+## Privacy
+
+- Only a first name and an email address are stored for each user.
+- Drop-off locations, private details and contact information are never shown publicly.
+- Photo metadata, including GPS coordinates, is stripped on upload.
+- Every report and its related data is deleted 30 days after publication. Only anonymous statistics are kept.
+
+## Data sources
+
+- **Locations** in `prisma/seed/locations.ts` come from public University of Minho sources, such as the [official campus maps](https://campi.uminho.pt). Each entry records its source and whether it is `confirmado` (confirmed) or `provisorio` (provisional).
+- **Drop-off points and opening hours** are placeholder data, clearly marked as provisional, until the official list is available.
+
+## Roadmap
+
+- [x] **Phase 1 · Foundations.** Project setup, database, authentication, roles, i18n and base layout.
+- [ ] **Phase 2 · Core reports.** Lost and found forms, photos, search, claims and a basic staff panel.
+- [ ] **Phase 3 · Matching and messaging.** Automatic matching, notifications, email and chat.
+- [ ] **Phase 4 · Administration and production.** Admin panel, moderation, scheduled jobs, backups and deployment.
+
+## License
+
+A license has not been chosen yet. Until one is added, all rights are reserved.
