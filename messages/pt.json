@@ -1,0 +1,85 @@
+{
+  "common": {
+    "appName": "miaUM",
+    "slogan": "Perdeste algo na UM? Just miaUM.",
+    "skipToContent": "Saltar para o conteúdo",
+    "comingSoon": "Em breve",
+    "backHome": "Voltar ao início",
+    "loading": "A carregar…",
+    "language": "Idioma",
+    "switchTo": "English",
+    "provisionalNotice": "Versão de desenvolvimento. Os pontos de entrega e horários são dados de exemplo."
+  },
+  "nav": {
+    "home": "Início",
+    "staff": "Painel do staff",
+    "admin": "Administração",
+    "account": "A minha conta",
+    "signIn": "Entrar",
+    "signOut": "Sair",
+    "mainNav": "Navegação principal"
+  },
+  "home": {
+    "title": "Perdidos e achados da Universidade do Minho",
+    "intro": "Encontraste um objeto ou perdeste algo num dos campi? Publica aqui e nós ajudamos a juntar o objeto ao dono.",
+    "lost": "Perdi algo",
+    "found": "Encontrei algo",
+    "listTitle": "Anúncios recentes",
+    "empty": "Ainda não há anúncios.",
+    "oldNotice": "Perdeste algo há mais de 30 dias? Pergunta diretamente nos pontos de entrega."
+  },
+  "login": {
+    "title": "Entrar",
+    "intro": "Entra com o teu email institucional. Enviamos-te um link que expira em 15 minutos.",
+    "emailLabel": "Email institucional",
+    "submit": "Enviar link",
+    "or": "ou",
+    "oidc": "Entrar com {name}",
+    "devTitle": "Login rápido (apenas em desenvolvimento)",
+    "devAs": "Entrar como {name} ({roles})",
+    "checkTitle": "Verifica o teu email",
+    "checkText": "Se o email for válido, vais receber um link para entrar. Pode demorar alguns minutos; verifica também o spam.",
+    "errors": {
+      "AccessDenied": "Este email não pode ser usado. Usa o teu email institucional.",
+      "Verification": "O link expirou ou já foi usado. Pede um novo.",
+      "limite": "Pediste demasiados links. Tenta novamente daqui a uma hora.",
+      "invalidEmail": "Indica um email válido.",
+      "default": "Não foi possível entrar. Tenta novamente."
+    }
+  },
+  "account": {
+    "title": "A minha conta",
+    "name": "Nome",
+    "email": "Email",
+    "roles": "Perfis",
+    "noName": "(sem nome)"
+  },
+  "roles": {
+    "USER": "Utilizador",
+    "STAFF": "Staff",
+    "ADMIN": "Administrador"
+  },
+  "staff": {
+    "title": "Painel do staff",
+    "points": "Os teus pontos de entrega",
+    "noPoints": "Ainda não estás associado a nenhum ponto de entrega."
+  },
+  "admin": {
+    "title": "Administração",
+    "stats": "Resumo dos dados",
+    "campi": "Campi",
+    "locations": "Locais",
+    "categories": "Categorias",
+    "points": "Pontos de entrega",
+    "users": "Utilizadores"
+  },
+  "errors": {
+    "forbiddenTitle": "Sem acesso",
+    "forbiddenText": "Não tens permissão para ver esta página.",
+    "notFoundTitle": "Página não encontrada",
+    "notFoundText": "A página que procuras não existe.",
+    "genericTitle": "Algo correu mal",
+    "genericText": "Ocorreu um erro inesperado. Tenta novamente.",
+    "retry": "Tentar novamente"
+  }
+}

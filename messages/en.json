@@ -1,0 +1,85 @@
+{
+  "common": {
+    "appName": "miaUM",
+    "slogan": "Lost something at UM? Just miaUM.",
+    "skipToContent": "Skip to content",
+    "comingSoon": "Coming soon",
+    "backHome": "Back to home",
+    "loading": "Loading…",
+    "language": "Language",
+    "switchTo": "Português",
+    "provisionalNotice": "Development version. Drop-off points and opening hours are example data."
+  },
+  "nav": {
+    "home": "Home",
+    "staff": "Staff panel",
+    "admin": "Administration",
+    "account": "My account",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "mainNav": "Main navigation"
+  },
+  "home": {
+    "title": "University of Minho lost and found",
+    "intro": "Found something or lost something on campus? Post it here and we'll help reunite the item with its owner.",
+    "lost": "I lost something",
+    "found": "I found something",
+    "listTitle": "Recent posts",
+    "empty": "No posts yet.",
+    "oldNotice": "Lost something more than 30 days ago? Ask directly at the drop-off points."
+  },
+  "login": {
+    "title": "Sign in",
+    "intro": "Sign in with your university email. We'll send you a link that expires in 15 minutes.",
+    "emailLabel": "University email",
+    "submit": "Send link",
+    "or": "or",
+    "oidc": "Sign in with {name}",
+    "devTitle": "Quick sign-in (development only)",
+    "devAs": "Sign in as {name} ({roles})",
+    "checkTitle": "Check your email",
+    "checkText": "If the email is valid, you'll receive a sign-in link. It may take a few minutes; check your spam folder too.",
+    "errors": {
+      "AccessDenied": "This email can't be used. Please use your university email.",
+      "Verification": "The link has expired or was already used. Request a new one.",
+      "limite": "Too many links requested. Try again in an hour.",
+      "invalidEmail": "Please enter a valid email.",
+      "default": "Couldn't sign you in. Please try again."
+    }
+  },
+  "account": {
+    "title": "My account",
+    "name": "Name",
+    "email": "Email",
+    "roles": "Roles",
+    "noName": "(no name)"
+  },
+  "roles": {
+    "USER": "User",
+    "STAFF": "Staff",
+    "ADMIN": "Administrator"
+  },
+  "staff": {
+    "title": "Staff panel",
+    "points": "Your drop-off points",
+    "noPoints": "You're not assigned to any drop-off point yet."
+  },
+  "admin": {
+    "title": "Administration",
+    "stats": "Data overview",
+    "campi": "Campuses",
+    "locations": "Locations",
+    "categories": "Categories",
+    "points": "Drop-off points",
+    "users": "Users"
+  },
+  "errors": {
+    "forbiddenTitle": "No access",
+    "forbiddenText": "You don't have permission to see this page.",
+    "notFoundTitle": "Page not found",
+    "notFoundText": "The page you're looking for doesn't exist.",
+    "genericTitle": "Something went wrong",
+    "genericText": "An unexpected error occurred. Please try again.",
+    "retry": "Try again"
+  }
+}

@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+/* Design próprio e neutro (sem identidade visual da UMinho). Claro/escuro seguindo o sistema. */
+:root {
+  --background: #fafaf9;
+  --surface: #ffffff;
+  --foreground: #1c1917;
+  --muted: #57534e;
+  --border: #d6d3d1;
+  --accent: #0f766e;
+  --accent-foreground: #ffffff;
+  --notice: #fef3c7;
+  --notice-foreground: #78350f;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0c0a09;
+    --surface: #1c1917;
+    --foreground: #f5f5f4;
+    --muted: #a8a29e;
+    --border: #44403c;
+    --accent: #2dd4bf;
+    --accent-foreground: #042f2e;
+    --notice: #422006;
+    --notice-foreground: #fde68a;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-notice: var(--notice);
+  --color-notice-foreground: var(--notice-foreground);
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Foco sempre visível (WCAG 2.4.7) */
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
