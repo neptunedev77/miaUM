@@ -50,17 +50,26 @@ export async function deletePendingPhoto(uploaderId: string, id: string) {
 /**
  * Devolve o ficheiro de uma fotografia, se quem pede a puder ver:
  * - fotografia ainda sem anúncio: só quem a carregou;
- * - fotografia de um anúncio: o público se o anúncio estiver visível; o autor sempre.
+ * - fotografia de um anúncio: o público se o anúncio estiver visível; o autor sempre; quem o
+ *   reclamou enquanto a reclamação estiver ativa ou concluída (o mesmo que vê a página do anúncio).
  */
 export async function readPhotoForViewer(id: string, viewerId: string | null, variant: "full" | "thumb") {
   const photo = await prisma.photo.findUnique({
     where: { id },
-    include: { report: { select: { authorId: true, type: true, status: true, hiddenByModeration: true, expiresAt: true } } },
+    include: {
+      report: {
+        select: {
+          authorId: true, type: true, status: true, hiddenByModeration: true, expiresAt: true,
+          // Quem reclamou continua a ver o anúncio (e as fotos) enquanto a reclamação estiver ativa ou concluída.
+          claims: { where: { claimantId: viewerId ?? "", status: { in: ["ACTIVE", "COMPLETED"] } }, select: { id: true }, take: 1 },
+        },
+      },
+    },
   });
   if (!photo) return null;
   const isUploader = viewerId !== null && photo.uploaderId === viewerId;
   const canSee = photo.report
-    ? isPubliclyVisible(photo.report) || photo.report.authorId === viewerId
+    ? isPubliclyVisible(photo.report) || photo.report.authorId === viewerId || photo.report.claims.length > 0
     : isUploader;
   if (!canSee) return null;
   const data = await storage.get(variant === "thumb" ? photo.thumbKey : photo.fileKey);
